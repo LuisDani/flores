@@ -1,0 +1,538 @@
+/* =========================================================
+   Flores amarillas — hoja de estilos
+   0. base  1. intro  2. espacio  3. tierra  4. jardín  5. final  6. ui
+   ========================================================= */
+
+/* ---------- 0. base ---------- */
+:root{
+  --gold:#ffd23f;
+  --gold-soft:#ffe9a3;
+  --gold-deep:#f0a70a;
+  --ink:#05070f;
+  --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans:"Quicksand", ui-rounded, -apple-system, "Segoe UI", sans-serif;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-bloom:cubic-bezier(.34,1.46,.64,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+
+html,body{height:100%;}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+
+body{
+  margin:0;
+  background:var(--ink);
+  color:#fff;
+  font-family:var(--sans);
+  overflow:hidden;
+  overscroll-behavior:none;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+.svg-defs{position:absolute;width:0;height:0;overflow:hidden;}
+
+/* utilidades de fase: el <body> lleva la clase de la escena activa */
+.space,.words,.earth-stage,.garden,.final,.flash{
+  position:fixed;
+  top:0;right:0;bottom:0;left:0;
+  pointer-events:none;
+}
+
+/* ---------- 1. intro ---------- */
+.intro{
+  position:fixed;
+  top:0;right:0;bottom:0;left:0;
+  z-index:60;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  text-align:center;
+  background:
+    radial-gradient(120% 80% at 50% 8%, rgba(255,196,60,.13), transparent 60%),
+    radial-gradient(90% 70% at 50% 100%, rgba(38,72,140,.22), transparent 70%),
+    #04060f;
+  transition:opacity .9s var(--ease-out), visibility .9s;
+}
+body.started .intro{opacity:0;visibility:hidden;}
+
+.intro-inner{width:min(30rem,100%);animation:riseIn 1.2s cubic-bezier(.16,1,.3,1) both;}
+
+.intro-flower{
+  display:block;
+  width:92px;height:auto;
+  margin:0 auto 24px;
+  filter:drop-shadow(0 0 22px rgba(255,200,60,.5));
+  animation:spinSlow 30s linear infinite;
+  transform-origin:50% 50%;
+}
+
+.intro-title{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(1.9rem,6vw,2.9rem);
+  line-height:1.15;
+  margin:0 0 14px;
+  color:#fff6da;
+}
+
+.intro-sub{
+  font-size:clamp(.95rem,3.4vw,1.08rem);
+  line-height:1.65;
+  color:rgba(255,255,255,.68);
+  margin:0 0 34px;
+  font-weight:400;
+}
+
+.btn-start{
+  font-family:var(--sans);
+  font-size:1rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:#3a2600;
+  background:linear-gradient(160deg,#ffe98a,#ffc61a 55%,#f0a70a);
+  border:0;
+  border-radius:999px;
+  padding:15px 44px;
+  cursor:pointer;
+  box-shadow:0 10px 34px rgba(255,180,20,.34), inset 0 1px 0 rgba(255,255,255,.7);
+  transition:transform .25s var(--ease-out), box-shadow .25s var(--ease-out);
+  animation:pulseGlow 3.4s ease-in-out infinite;
+}
+.btn-start:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 16px 42px rgba(255,180,20,.5), inset 0 1px 0 rgba(255,255,255,.7);}
+.btn-start:active{transform:translateY(0) scale(.98);}
+
+.intro-hint{
+  margin:22px 0 0;
+  font-size:.8rem;
+  letter-spacing:.06em;
+  color:rgba(255,255,255,.34);
+}
+
+@keyframes riseIn{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 10px 34px rgba(255,180,20,.30), inset 0 1px 0 rgba(255,255,255,.7);}
+  50%{box-shadow:0 10px 46px rgba(255,180,20,.62), inset 0 1px 0 rgba(255,255,255,.7);}
+}
+
+/* ---------- 2. espacio ---------- */
+.space{
+  z-index:10;
+  display:block;
+  width:100%;
+  height:100%;
+  opacity:0;
+  transition:opacity 1.6s ease;
+  background:
+    radial-gradient(110% 75% at 50% 45%, rgba(30,58,110,.28), transparent 62%),
+    radial-gradient(70% 55% at 18% 82%, rgba(120,60,140,.15), transparent 70%),
+    #03040c;
+}
+body.phase-space .space,
+body.phase-earth .space{opacity:1;}
+body.phase-garden .space,
+body.phase-final .space{opacity:0;}
+
+.words{z-index:20;}
+
+.word{
+  position:absolute;
+  top:0;left:0;
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:400;
+  white-space:nowrap;
+  color:#fff4cf;
+  text-shadow:
+    0 1px 2px rgba(10,6,0,.85),
+    0 0 10px rgba(60,30,0,.8),
+    0 0 26px rgba(255,205,80,.6),
+    0 0 62px rgba(255,170,30,.35);
+  opacity:0;
+  will-change:transform,opacity;
+  transform:translate(-50%,-50%);
+}
+
+/* ---------- 3. tierra ---------- */
+.earth-stage{
+  z-index:15;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  /* durante el viaje ya se ve de lejos, como un puntito azul al que vas:
+     ademas asi la textura ya esta subida a la grafica cuando la escena
+     arranca de verdad y no da el tironcito del primer frame */
+  opacity:.8;
+  transition:opacity 1.2s ease;
+}
+body.phase-earth .earth-stage{opacity:1;}
+body.phase-garden .earth-stage,
+body.phase-final .earth-stage{opacity:0;}
+
+.earth{
+  width:70vmin;
+  height:70vmin;
+  transform:scale(.03);
+  transform-origin:50% 50%;
+  will-change:transform;
+  backface-visibility:hidden;
+}
+
+.earth-bitmap{
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+/* destello de entrada a la atmósfera */
+.flash{
+  z-index:40;
+  background:radial-gradient(circle at 50% 55%, #fffdf2 0%, #ffe9a8 32%, #ffc43d 62%, rgba(255,180,40,0) 78%);
+  opacity:0;
+}
+
+/* ---------- 4. jardin ---------- */
+.garden{
+  z-index:25;
+  opacity:0;
+  overflow:hidden;
+  transition:opacity 2.2s ease;
+}
+body.phase-garden .garden,
+body.phase-final .garden{opacity:1;}
+
+.sky{
+  position:absolute;top:0;right:0;bottom:0;left:0;
+  background:
+    linear-gradient(180deg,
+      #2b4a86 0%,
+      #5b7fbd 18%,
+      #9db6dd 34%,
+      #dcd2b6 52%,
+      #f6dd9c 66%,
+      #ffd06a 78%,
+      #ffbe58 100%);
+}
+
+.sun-glow{
+  position:absolute;
+  left:50%;top:58%;
+  width:120vmax;height:120vmax;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle, rgba(255,241,190,.95) 0 4%, rgba(255,215,110,.55) 10%, rgba(255,190,80,.22) 22%, transparent 46%);
+  animation:sunBreathe 9s ease-in-out infinite;
+}
+@keyframes sunBreathe{0%,100%{opacity:.85;}50%{opacity:1;}}
+
+.rays{
+  position:absolute;top:-20%;right:-20%;bottom:-20%;left:-20%;
+  background:conic-gradient(from 200deg at 50% 62%,
+    rgba(255,240,190,.10) 0 3deg, transparent 3deg 9deg,
+    rgba(255,240,190,.07) 9deg 12deg, transparent 12deg 22deg,
+    rgba(255,240,190,.12) 22deg 25deg, transparent 25deg 40deg);
+  animation:spinSlow 120s linear infinite;
+  will-change:transform;
+  opacity:.5;
+}
+
+.hills{position:absolute;left:-5%;right:-5%;}
+.hills-far{
+  bottom:26%;height:22vh;
+  background:linear-gradient(180deg,#6f8f56,#4f7340);
+  border-radius:50% 50% 0 0 / 100% 100% 0 0;
+  filter:blur(1px);
+  opacity:.75;
+}
+.hills-near{
+  bottom:20%;height:18vh;
+  background:linear-gradient(180deg,#4e7a3a,#335a28);
+  border-radius:46% 54% 0 0 / 100% 100% 0 0;
+  opacity:.9;
+}
+
+.ground{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:26%;
+  background:linear-gradient(180deg, #3c6b2c 0%, #2c5320 40%, #1d3a16 100%);
+  box-shadow:0 -26px 60px rgba(32,64,20,.5);
+}
+.ground::before{
+  content:"";
+  position:absolute;left:0;right:0;top:-14px;height:34px;
+  background:radial-gradient(ellipse 4% 100% at 10% 100%, #4a7f33 0 60%, transparent 62%),
+             radial-gradient(ellipse 3% 100% at 30% 100%, #548a38 0 60%, transparent 62%),
+             radial-gradient(ellipse 5% 100% at 55% 100%, #467a2f 0 60%, transparent 62%),
+             radial-gradient(ellipse 4% 100% at 78% 100%, #52883a 0 60%, transparent 62%),
+             radial-gradient(ellipse 3% 100% at 92% 100%, #3f7029 0 60%, transparent 62%);
+  filter:blur(2px);
+}
+
+.field{position:absolute;top:0;right:0;bottom:0;left:0;}
+
+/* mientras el jardin se arma en segundo plano, nada se mueve: al quitar
+   esta clase todas las animaciones arrancan juntas y desde cero */
+.garden.esperando *{animation-play-state:paused !important;}
+
+/* --- una flor --- */
+.bloom{
+  position:absolute;
+  left:var(--x);
+  bottom:var(--b);
+  width:var(--w);
+  transform:translateX(-50%);
+  transform-origin:50% 100%;
+  /* nombre y tipo aqui; duracion y retraso los pone el JS con numeros
+     ya calculados, porque Safari es delicado con calc() y variables
+     metidas dentro del atajo animation */
+  animation-name:sway;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+  animation-direction:alternate;
+}
+.bloom svg{display:block;width:100%;height:auto;overflow:visible;}
+
+@keyframes sway{
+  from{transform:translateX(-50%) rotate(-1.6deg);}
+  to{transform:translateX(-50%) rotate(1.6deg);}
+}
+
+.bloom .stem{
+  animation-name:stemGrow;
+  animation-duration:1.5s;
+  animation-timing-function:cubic-bezier(.16,1,.3,1);
+  animation-fill-mode:forwards;
+}
+@keyframes stemGrow{to{stroke-dashoffset:0;}}
+
+.bloom .leaf{
+  transform-box:fill-box;
+  transform-origin:0% 50%;
+  transform:scale(0);
+  opacity:0;
+  animation-name:leafOut;
+  animation-duration:.8s;
+  animation-timing-function:cubic-bezier(.34,1.46,.64,1);
+  animation-fill-mode:forwards;
+}
+.bloom .leaf-r{transform-origin:100% 50%;}
+@keyframes leafOut{to{transform:scale(1);opacity:1;}}
+
+.bloom .head{
+  transform-box:fill-box;
+  transform-origin:50% 100%;
+  transform:scale(0) rotate(-34deg);
+  animation-name:headBloom;
+  animation-duration:1.15s;
+  animation-timing-function:cubic-bezier(.34,1.46,.64,1);
+  animation-fill-mode:forwards;
+}
+@keyframes headBloom{to{transform:scale(1) rotate(0deg);}}
+
+/* profundidad: las del fondo mas apagadas */
+.bloom.depth-far{opacity:.86;}
+.bloom.depth-mid{opacity:.96;}
+.bloom.depth-near{}
+
+/* nube blanca tipo gypsophila */
+.baby{
+  position:absolute;
+  left:var(--x);bottom:var(--b);
+  width:var(--w);height:var(--w);
+  opacity:0;
+  animation-name:babyIn, sway;
+  animation-duration:1.4s, 7s;
+  animation-timing-function:cubic-bezier(.16,1,.3,1), ease-in-out;
+  animation-fill-mode:forwards, none;
+  animation-iteration-count:1, infinite;
+  animation-direction:normal, alternate;
+  background:
+    radial-gradient(circle 12% at 22% 30%, #fff 0 60%, transparent 62%),
+    radial-gradient(circle 10% at 58% 18%, #fff 0 60%, transparent 62%),
+    radial-gradient(circle 11% at 78% 44%, #fffdf3 0 60%, transparent 62%),
+    radial-gradient(circle  9% at 40% 62%, #fff 0 60%, transparent 62%),
+    radial-gradient(circle 10% at 68% 76%, #fff8e6 0 60%, transparent 62%),
+    radial-gradient(circle  8% at 14% 70%, #fff 0 60%, transparent 62%);
+}
+@keyframes babyIn{to{opacity:.9;}}
+
+/* pasto de primer plano */
+.foreground{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:22%;
+}
+.foreground::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;height:60%;
+  background:linear-gradient(180deg, transparent, rgba(16,38,12,.85));
+}
+.blade{
+  position:absolute;
+  bottom:-2%;
+  border-radius:50% 50% 12% 12% / 92% 92% 8% 8%;
+  background:linear-gradient(180deg,
+    hsl(var(--tono) 46% 42%) 0%,
+    hsl(var(--tono) 52% 28%) 60%,
+    hsl(var(--tono) 55% 18%) 100%);
+  transform-origin:50% 100%;
+  transform:translateX(-50%) rotate(var(--tilt)) scaleY(0);
+  animation-name:bladeUp, bladeSway;
+  animation-timing-function:cubic-bezier(.16,1,.3,1), ease-in-out;
+  animation-fill-mode:forwards, none;
+  animation-iteration-count:1, infinite;
+  animation-direction:normal, alternate;
+}
+@keyframes bladeUp{to{transform:translateX(-50%) rotate(var(--tilt)) scaleY(1);}}
+@keyframes bladeSway{
+  from{transform:translateX(-50%) rotate(calc(var(--tilt) - 3deg)) scaleY(1);}
+  to{transform:translateX(-50%) rotate(calc(var(--tilt) + 3deg)) scaleY(1);}
+}
+
+/* polen flotando */
+.pollen{z-index:26;}
+.mote{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff5c4 0 40%, rgba(255,215,110,.5) 70%, transparent 72%);
+  opacity:0;
+  animation-name:floatUp;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+  will-change:transform,opacity;
+}
+@keyframes floatUp{
+  0%{opacity:0;transform:translate(0,0) scale(.7);}
+  12%{opacity:.85;}
+  85%{opacity:.5;}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.1);}
+}
+
+/* ---------- 5. mensaje final ---------- */
+.final{
+  z-index:35;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:6vh 7vw;
+  opacity:0;
+  transition:opacity 1.8s ease;
+}
+body.phase-final .final{opacity:1;pointer-events:auto;}
+
+.final-card{
+  width:min(36rem, 100%);
+  text-align:center;
+  padding:clamp(26px,5vw,44px);
+  border-radius:26px;
+  background:linear-gradient(180deg, rgba(40,44,16,.46), rgba(18,30,10,.5));
+  backdrop-filter:blur(14px) saturate(1.1);
+  -webkit-backdrop-filter:blur(14px) saturate(1.1);
+  box-shadow:0 26px 70px rgba(20,40,10,.4), inset 0 1px 0 rgba(255,255,255,.18);
+  border:1px solid rgba(255,240,190,.18);
+}
+
+.final-line{
+  font-family:var(--serif);
+  font-size:clamp(1.22rem,4.4vw,1.72rem);
+  line-height:1.6;
+  margin:0 0 .85em;
+  color:#fffaf0;
+  text-shadow:0 2px 18px rgba(40,30,0,.5);
+  opacity:0;
+  transform:translateY(16px);
+  animation-name:lineIn;
+  animation-duration:1.5s;
+  animation-timing-function:cubic-bezier(.16,1,.3,1);
+  animation-fill-mode:forwards;
+}
+.final-line:last-of-type{margin-bottom:0;}
+.final-line.em{
+  font-style:italic;
+  font-size:clamp(1.35rem,5vw,2rem);
+  color:#ffe89b;
+}
+.final-sign{
+  display:block;
+  margin-top:1.4em;
+  font-family:var(--sans);
+  font-size:.82rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,246,214,.6);
+  opacity:0;
+  animation-name:lineIn;
+  animation-duration:1.6s;
+  animation-timing-function:cubic-bezier(.16,1,.3,1);
+  animation-fill-mode:forwards;
+}
+@keyframes lineIn{to{opacity:1;transform:none;}}
+
+/* ---------- 6. ui ---------- */
+.btn-skip,.btn-replay{
+  font-family:var(--sans);
+  cursor:pointer;
+  border-radius:999px;
+  transition:opacity .3s ease, transform .3s var(--ease-out), background .3s ease;
+}
+
+.btn-skip{
+  position:fixed;
+  right:max(16px, env(safe-area-inset-right));
+  bottom:max(16px, env(safe-area-inset-bottom));
+  z-index:70;
+  padding:9px 18px;
+  font-size:.78rem;
+  letter-spacing:.08em;
+  color:rgba(255,255,255,.55);
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.16);
+}
+.btn-skip:hover{color:#fff;background:rgba(255,255,255,.14);}
+.btn-skip[hidden]{display:none;}
+
+.btn-replay{
+  position:relative;
+  margin-top:28px;
+  padding:12px 30px;
+  font-size:.86rem;
+  font-weight:600;
+  letter-spacing:.06em;
+  color:#3d2a00;
+  background:linear-gradient(160deg,#ffeaa0,#ffcc33);
+  border:0;
+  box-shadow:0 10px 30px rgba(180,120,0,.3);
+  opacity:0;
+  animation:lineIn 1.4s 1s cubic-bezier(.16,1,.3,1) forwards;
+}
+.btn-replay:hover{transform:translateY(-2px);}
+
+/* ---------- responsive / accesibilidad ---------- */
+@media (max-width:760px){
+  .final-card{
+    border-radius:20px;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    background:linear-gradient(180deg, rgba(34,40,14,.82), rgba(14,26,8,.86));
+  }
+}
+
+/* pantallas verticales (celular): el horizonte sube para no dejar tanto cielo */
+@media (max-aspect-ratio:3/4){
+  .ground{height:32%;}
+  .hills-near{bottom:26%;height:15vh;}
+  .hills-far{bottom:32%;height:18vh;}
+  .sun-glow{top:66%;}
+  .foreground{height:26%;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rays,.intro-flower,.mote{animation:none !important;}
+  .bloom{animation:none !important;transform:translateX(-50%);}
+  /* sin animacion el pasto se quedaria en scaleY(0), o sea invisible */
+  .blade{animation:none !important;transform:translateX(-50%) rotate(var(--tilt)) scaleY(1);}
+}

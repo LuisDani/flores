@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#04060f" />
+<title>Flores amarillas para ti</title>
+<meta name="description" content="Un viaje por el espacio para traerte flores amarillas." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ====== defs compartidos para las flores SVG ====== -->
+<svg class="svg-defs" width="0" height="0" aria-hidden="true">
+  <defs>
+    <linearGradient id="petalGold" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%"   stop-color="#fff3b0" />
+      <stop offset="35%"  stop-color="#ffd83d" />
+      <stop offset="75%"  stop-color="#f6b207" />
+      <stop offset="100%" stop-color="#d98a02" />
+    </linearGradient>
+    <linearGradient id="petalGold2" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%"   stop-color="#ffe98a" />
+      <stop offset="45%"  stop-color="#fcc317" />
+      <stop offset="100%" stop-color="#e07c05" />
+    </linearGradient>
+    <linearGradient id="petalGold3" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%"   stop-color="#fffbdc" />
+      <stop offset="50%"  stop-color="#ffe15c" />
+      <stop offset="100%" stop-color="#f0a70a" />
+    </linearGradient>
+    <radialGradient id="centerSun" cx="0.42" cy="0.38" r="0.72">
+      <stop offset="0%"   stop-color="#7a4517" />
+      <stop offset="55%"  stop-color="#43220a" />
+      <stop offset="100%" stop-color="#1e0e03" />
+    </radialGradient>
+    <radialGradient id="centerGerbera" cx="0.42" cy="0.38" r="0.75">
+      <stop offset="0%"   stop-color="#c9dd4f" />
+      <stop offset="55%"  stop-color="#7ea41d" />
+      <stop offset="100%" stop-color="#3f6310" />
+    </radialGradient>
+    <linearGradient id="stemGreen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#2f6b25" />
+      <stop offset="45%"  stop-color="#57a03c" />
+      <stop offset="100%" stop-color="#27541f" />
+    </linearGradient>
+    <linearGradient id="leafGreen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#5fae40" />
+      <stop offset="100%" stop-color="#255a1c" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ====== 0. pantalla de inicio ====== -->
+<section class="intro" id="intro">
+  <div class="intro-inner">
+    <svg class='intro-flower' viewBox='0 0 100 92' aria-hidden='true'><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold)' transform='rotate(0.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold2)' transform='rotate(30.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold3)' transform='rotate(60.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold)' transform='rotate(90.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold2)' transform='rotate(120.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold3)' transform='rotate(150.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold)' transform='rotate(180.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold2)' transform='rotate(210.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold3)' transform='rotate(240.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold)' transform='rotate(270.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold2)' transform='rotate(300.0 50 46)'/><path d='M50 46 C41 33 41 21 50 14 C59 21 59 33 50 46Z' fill='url(#petalGold3)' transform='rotate(330.0 50 46)'/><circle cx='50' cy='46' r='11' fill='url(#centerSun)'/><circle cx='47' cy='43' r='2.6' fill='rgba(255,255,255,.25)'/></svg>
+    <h1 class="intro-title">Hoy es 21 de septiembre</h1>
+    <p class="intro-sub">Y tengo algo que darte.<span id="hintAudio"><br />Súbele el volumen, y quítale el silencio si lo trae.</span></p>
+    <button class="btn-start" id="btnStart" type="button">
+      <span>Empezar</span>
+    </button>
+  </div>
+</section>
+
+<!-- ====== 1. viaje interestelar ====== -->
+<canvas id="space" class="space" aria-hidden="true"></canvas>
+<div class="words" id="words" aria-live="polite"></div>
+
+<!-- ====== 2. la tierra ====== -->
+<div class="earth-stage" id="earthStage" aria-hidden="true">
+  <div class="earth" id="earth"></div>
+</div>
+
+<div class="flash" id="flash" aria-hidden="true"></div>
+
+<!-- ====== 3. el jardín ====== -->
+<section class="garden" id="garden" aria-hidden="true">
+  <div class="sky"></div>
+  <div class="sun-glow"></div>
+  <div class="hills hills-far"></div>
+  <div class="hills hills-near"></div>
+  <div class="rays"></div>
+  <div class="ground"></div>
+  <div class="field" id="field"></div>
+  <div class="foreground" id="foreground"></div>
+  <div class="pollen" id="pollen"></div>
+</section>
+
+<!-- ====== 4. mensaje final ====== -->
+<section class="final" id="final" aria-hidden="true">
+  <div class="final-card" id="finalCard"></div>
+  <button class="btn-replay" id="btnReplay" type="button">Verlo otra vez</button>
+</section>
+
+<button class="btn-skip" id="btnSkip" type="button" hidden>Saltar &rsaquo;&rsaquo;</button>
+
+<audio id="bgm" loop preload="metadata" src="music.mp3"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
